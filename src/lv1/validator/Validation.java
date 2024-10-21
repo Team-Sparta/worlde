@@ -1,10 +1,8 @@
 package lv1.validator;
 
-import java.util.HashMap;
+public class Validation {
 
-public class Validation implements Validator {
-    @Override
-    public <T> ValidationResult validate(T guess, T answer) {
+    public static <T> ValidationResult validate(T guess, T answer) {
         String guessStr = guess.toString();
         String answerStr = answer.toString();
 
@@ -14,7 +12,7 @@ public class Validation implements Validator {
         return countStrikesAndBalls(guessStr, answerStr);
     }
 
-    private ValidationResult countStrikesAndBalls(String guess, String answer) {
+    private static ValidationResult countStrikesAndBalls(String guess, String answer) {
         int strikes = 0;
         int balls = 0;
 

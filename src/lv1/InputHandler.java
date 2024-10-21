@@ -18,18 +18,4 @@ public class InputHandler {
         String input = scanner.nextLine().trim();
         return parser.parse(input);
     }
-
-    public double getDoubleInput(String prompt) throws InputMismatchException {
-        return getInput(prompt, Parser::parseNum);
-    }
-
-    public String getExpression() {
-        System.out.print("수식을 한줄에 입력해주세요: ");
-        return scanner.nextLine();
-    }
-
-    public boolean shouldExit() {
-        System.out.print("더 계산하시겠습니까? [Y/n] ");
-        return "n".equalsIgnoreCase(scanner.nextLine());
-    }
 }

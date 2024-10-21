@@ -7,7 +7,6 @@ import java.util.InputMismatchException;
 
 public class Main {
     public static final InputHandler inputHandler = new InputHandler();
-    public static final Validation validation = new Validation();
     public static final RandomGenerator randomGenerator = new RandomGenerator();
 
     public static void main(String[] args) {
@@ -38,7 +37,7 @@ public class Main {
         while (guess != answer) {
             try {
                 guess = inputHandler.getInput("숫자를 입력하세요", Parser::parseGuessNum);
-                ValidationResult result = validation.validate(guess, answer);
+                ValidationResult result = Validation.validate(guess, answer);
                 System.out.println(result + "\n");
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

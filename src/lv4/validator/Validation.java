@@ -1,8 +1,8 @@
 package lv4.validator;
 
-public class Validation implements Validator {
-    @Override
-    public <T> ValidationResult validate(T guess, T answer) throws IllegalArgumentException {
+public class Validation {
+
+    public static <T> ValidationResult validate(T guess, T answer) throws IllegalArgumentException {
         String guessStr = guess.toString();
         String answerStr = answer.toString();
 
@@ -12,7 +12,7 @@ public class Validation implements Validator {
         return countStrikesAndBalls(guessStr, answerStr);
     }
 
-    private ValidationResult countStrikesAndBalls(String guess, String answer) {
+    private static ValidationResult countStrikesAndBalls(String guess, String answer) {
         int strikes = 0;
         int balls = 0;
 

@@ -8,7 +8,6 @@ import java.util.*;
 public class Main {
     // Static list of digits from 0 to 9
     public static final InputHandler inputHandler = new InputHandler();
-    public static final Validation validation = new Validation();
     public static final RandomGenerator randomGenerator = new RandomGenerator();
 
     public static void main(String[] args) {
@@ -19,11 +18,9 @@ public class Main {
 
         while (guess != answer) {
             try {
-                System.out.println("숫자를 입력하세요");
+                guess = inputHandler.getInput("숫자를 입력하세요", Parser::parseNum);
 
-                guess = inputHandler.getInput("", Parser::parseNum);
-
-                ValidationResult result = validation.validate(guess, answer);
+                ValidationResult result = Validation.validate(guess, answer);
                 System.out.println(result);
                 System.out.println();
             } catch (InputMismatchException e) {

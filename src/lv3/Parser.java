@@ -12,7 +12,7 @@ public class Parser {
 
     public static InitNumType parseInitNum(String numInput) throws InputMismatchException {
         if (!Pattern.matches(INIT_NUM__REGEX, numInput)) {
-            throw new InputMismatchException("잘못된 입력입니다. 0~3 사이의 숫자를 입력해주세요.");
+            throw new InputMismatchException("잘못된 입력입니다. 1~3 사이의 숫자를 입력해주세요.");
         }
         return InitNumType.fromChar(numInput.charAt(0));
     }

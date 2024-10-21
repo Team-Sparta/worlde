@@ -1,4 +1,6 @@
-package lv4;
+package lv4.parser;
+
+import lv4.enums.InitNumType;
 
 import java.util.InputMismatchException;
 import java.util.regex.Pattern;

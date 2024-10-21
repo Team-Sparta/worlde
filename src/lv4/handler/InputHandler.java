@@ -1,4 +1,7 @@
-package lv4;
+package lv4.handler;
+
+import lv4.parser.Parser;
+import lv4.enums.InitNumType;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

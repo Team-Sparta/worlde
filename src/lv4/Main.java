@@ -1,12 +1,13 @@
 package lv4;
 
 
+import lv4.enums.InitNumType;
+import lv4.handler.InputHandler;
 import lv4.validator.ValidationResult;
 import lv4.validator.Validation;
 
 public class Main {
     public static final InputHandler inputHandler = new InputHandler();
-    public static final Validation validation = new Validation();
     public static final GameTracker gameTracker = new GameTracker();
 
     public static void main(String[] args) {
@@ -51,7 +52,7 @@ public class Main {
         while (guess != answer) {
             try {
                 guess = inputHandler.getGuess("숫자를 입력하세요", level);
-                ValidationResult result = validation.validate(guess, answer);
+                ValidationResult result = Validation.validate(guess, answer);
                 System.out.println(result + "\n");
                 count++;
             } catch (IllegalArgumentException e) {

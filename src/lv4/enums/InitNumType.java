@@ -1,4 +1,4 @@
-package lv4;
+package lv4.enums;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
