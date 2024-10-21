@@ -6,7 +6,7 @@ import lv3.validator.ValidationResult;
 public class Main {
     public static final InputHandler inputHandler = new InputHandler();
     public static final Validation validation = new Validation();
-    public static final RandomGenerator randomGenerator = new RandomGenerator();
+    public static final GameTracker gameTracker = new GameTracker();
 
     public static void main(String[] args) {
         boolean isExit = false;
@@ -19,8 +19,12 @@ public class Main {
                     case START:
                         startGame();
                         break;
+                    case RECORD:
+                        gameTracker.printRecord();
+                        break;
                     case EXIT:
                         isExit = true;
+                        System.out.println("< 숫자 야구 게임을 종료합니다 >\n");
                         break;
                 }
             } catch (Exception e) {
@@ -30,17 +34,20 @@ public class Main {
     }
 
     private static void startGame() {
+        int count = 0;
         int guess = -1;
-        int answer = randomGenerator.generateUniqueThreeDigitNumber();
+        int answer = RandomGenerator.generateUniqueThreeDigitNumber();
         System.out.println("\n< 게임을 시작합니다 >");
         while (guess != answer) {
             try {
                 guess = inputHandler.getInput("숫자를 입력하세요", Parser::parseGuessNum);
                 ValidationResult result = validation.validate(guess, answer);
                 System.out.println(result + "\n");
+                count++;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
+        gameTracker.addGame(count);
     }
 }
