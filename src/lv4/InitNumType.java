@@ -1,10 +1,10 @@
-package lv3;
+package lv4;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public enum InitNumType {
-     START('1'), RECORD('2'), EXIT('3');
+    LEVEL('0'), START('1'), RECORD('2'), EXIT('3');
 
     private final char initNum;
 
