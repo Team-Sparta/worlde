@@ -1,7 +1,7 @@
 package lv5.parser;
 
 import lv5.enums.GameType;
-import lv5.enums.InitNumType;
+import lv5.enums.MenuType;
 
 import java.util.InputMismatchException;
 import java.util.regex.Pattern;
@@ -15,11 +15,11 @@ public class Parser {
     private static final String REPETITIVE_DIGIT_REGEX = ".*(\\d).*(\\1).*"; // This matches any digit followed later by itself
     private static final String ALPHABET_REGEX = "^[a-zA-Z]+$";
 
-    public static InitNumType parseInitNum(String input) throws InputMismatchException {
+    public static MenuType parseInitNum(String input) throws InputMismatchException {
         if (!Pattern.matches(INIT_NUM_REGEX, input)) {
             throw new InputMismatchException("잘못된 입력입니다. 0~3 사이의 숫자를 입력해주세요.");
         }
-        return InitNumType.fromChar(input.charAt(0));
+        return MenuType.fromChar(input.charAt(0));
     }
 
     public static GameType parseGameType(String input) throws InputMismatchException {

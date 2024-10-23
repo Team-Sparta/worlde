@@ -1,7 +1,7 @@
 package lv5.test;
 
 import lv5.enums.GameType;
-import lv5.enums.InitNumType;
+import lv5.enums.MenuType;
 import lv5.parser.Parser;
 
 import java.util.InputMismatchException;
@@ -11,8 +11,8 @@ public class ParserTest {
 
     @Test
     public void testParseInitNumWithValidInput() {
-        InitNumType result = Parser.parseInitNum("2");
-        assert result == InitNumType.RECORD : "Expected InitNumType.RECORD but got " + result;
+        MenuType result = Parser.parseInitNum("2");
+        assert result == MenuType.RECORD : "Expected MenuType.RECORD but got " + result;
     }
 
     @Test

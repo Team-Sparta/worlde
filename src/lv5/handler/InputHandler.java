@@ -1,7 +1,7 @@
 package lv5.handler;
 
 import lv5.enums.GameType;
-import lv5.enums.InitNumType;
+import lv5.enums.MenuType;
 import lv5.parser.Parser;
 
 import java.util.InputMismatchException;
@@ -29,7 +29,7 @@ public class InputHandler {
         }
     }
 
-    public static InitNumType getInitNum(String prompt) {
+    public static MenuType getInitNum(String prompt) {
         return getInput(prompt, Parser::parseInitNum);
     }
 

@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 public class NumberGameWithBot extends Game {
 
+    public static void main(String[] args) {
+        generateAllPossibleNumbers(3);
+    }
+
     @Override
     public void startGame(int level) {
         int count = 0;
@@ -19,8 +23,7 @@ public class NumberGameWithBot extends Game {
 
         int answer = RandomGenerator.generateUniqueDigitNumber(level);
         List<String> possibleNumbers = generateAllPossibleNumbers(level);
-
-
+        System.out.println(possibleNumbers);
         while (humanGuess != answer && aiGuess != answer) {
             humanGuess = InputHandler.getGuessNum("숫자를 입력하세요", level);
             ValidationResult humanResult = Validation.checkResult(humanGuess, answer);
@@ -59,21 +62,24 @@ public class NumberGameWithBot extends Game {
     }
 
     private static List<String> generateAllPossibleNumbers(int length) {
-        List<String> possibleNumbers = new ArrayList<>();
-        generateNumbersRecursive("", length, possibleNumbers);
-        return possibleNumbers;
-    }
-
-    private static void generateNumbersRecursive(String current, int length, List<String> possibleNumbers) {
-        if (current.length() == length) {
-            possibleNumbers.add(current);
-            return;
-        }
+        List<String> result = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
         for (int i = 1; i <= 9; i++) {
-            if (!current.contains(String.valueOf(i))) {
-                generateNumbersRecursive(current + i, length, possibleNumbers);
+            queue.add(String.valueOf(i));
+        }
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            if (current.length() == length) {
+                result.add(current);
+            } else {
+                for (int i = 1; i <= 9; i++) {
+                    if (!current.contains(String.valueOf(i))) {
+                        queue.add(current + i);
+                    }
+                }
             }
         }
+        return result;
     }
 
     private static int[] getFeedback(String guess, String secret) {
