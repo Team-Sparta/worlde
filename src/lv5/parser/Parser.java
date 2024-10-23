@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private static final String INIT_NUM_REGEX = "^[0-3]$";
-    private static final String INIT_GAME_TYPE_REGEX = "^[NWnw]$";
+    private static final String INIT_GAME_TYPE_REGEX = "^[NnWwAa]$";
     private static final String LEVEL_REGEX = "^[3-5]$";
     private static final String NUMBER_REGEX = "^-?\\d+$";
     private static final String ZERO_REGEX = ".*0.*"; // This matches any string containing at least one '0'

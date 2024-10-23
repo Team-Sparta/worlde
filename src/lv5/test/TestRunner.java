@@ -1,7 +1,5 @@
 package lv5.test;
 
-import lv5.annotation.Test;
-
 import java.lang.reflect.Method;
 
 public class TestRunner {

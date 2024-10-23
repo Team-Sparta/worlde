@@ -1,6 +1,5 @@
 package lv5.test;
 
-import lv5.annotation.Test;
 import lv5.enums.GameType;
 import lv5.enums.InitNumType;
 import lv5.parser.Parser;

@@ -1,6 +1,5 @@
 package lv5.test;
 
-import lv5.annotation.Test;
 import lv5.generator.RandomGenerator;
 
 import java.util.HashSet;

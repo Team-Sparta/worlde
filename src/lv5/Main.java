@@ -20,7 +20,7 @@ public class Main {
                         gameTracker.setLevel();
                         break;
                     case START:
-                        gameTracker.createGame(3);
+                        gameTracker.createGame();
                         break;
                     case RECORD:
                         gameTracker.printRecord();

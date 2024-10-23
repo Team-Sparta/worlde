@@ -18,7 +18,7 @@ public class Validation {
     }
 
 
-    private static ValidationResult countStrikesAndBalls(String guess, String answer) {
+    public static ValidationResult countStrikesAndBalls(String guess, String answer) {
         int strikes = 0;
         int balls = 0;
 

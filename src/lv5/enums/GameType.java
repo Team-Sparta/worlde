@@ -1,14 +1,16 @@
 package lv5.enums;
 
 import lv5.game.Game;
-import lv5.game.NumberGame;
-import lv5.game.WordGame;
+import lv5.game.NumberGameWithBot;
+import lv5.game.SoloNumberGame;
+import lv5.game.SoloWordGame;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public enum GameType {
-    NUMBER('N', new NumberGame()), WORD('W', new WordGame());
+    NUMBER('N', new SoloNumberGame()), WORD('W', new SoloWordGame()),
+    AI('A', new NumberGameWithBot());
 
     private final char symbol;
     private final Game game;
