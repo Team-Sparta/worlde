@@ -6,7 +6,12 @@ import lv5.game.SoloNumberGame;
 import lv5.game.SoloWordGame;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum GameType {
     NUMBER('N', new SoloNumberGame()), WORD('W', new SoloWordGame()),
@@ -15,20 +20,28 @@ public enum GameType {
     private final char symbol;
     private final Game game;
 
+    private static final Map<Character, GameType> MENU_TYPE_MAP =
+            Collections.unmodifiableMap(Stream.of(values()).sequential()
+                    .collect(Collectors.toMap(GameType::getSymbol, Function.identity())));
+
     GameType(char c, Game game) {
         this.symbol = c;
         this.game = game;
+    }
+
+    public char getSymbol() {
+        return this.symbol;
     }
 
     public Game getGame() {
         return this.game;
     }
 
-
     public static GameType fromChar(char symbol) throws InputMismatchException {
-        return Arrays.stream(values())
-                .filter(e -> e.symbol == Character.toUpperCase(symbol))
-                .findFirst()
-                .orElseThrow(() -> new InputMismatchException("잘못된 입력입니다."));
+        GameType gameType = MENU_TYPE_MAP.get(symbol);
+        if (gameType == null) {
+            throw new InputMismatchException("Invalid symbol: " + symbol);
+        }
+        return gameType;
     }
 }

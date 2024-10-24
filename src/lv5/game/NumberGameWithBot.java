@@ -11,10 +11,6 @@ import java.util.stream.Collectors;
 
 public class NumberGameWithBot extends Game {
 
-    public static void main(String[] args) {
-        generateAllPossibleNumbers(3);
-    }
-
     @Override
     public void startGame(int level) {
         int count = 0;
