@@ -1,5 +1,6 @@
-package lv5.game;
+package lv5.game.solo;
 
+import lv5.game.Game;
 import lv5.generator.RandomGenerator;
 import lv5.enums.GameType;
 import lv5.handler.InputHandler;
@@ -25,7 +26,7 @@ public class SoloNumberGame extends Game {
                 System.out.println(e.getMessage());
             }
         }
-        addGame(count);
+        addGame(GameType.NUMBER, count);
     }
 
 }

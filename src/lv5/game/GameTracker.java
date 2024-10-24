@@ -14,7 +14,7 @@ public class GameTracker {
     }
 
     public void createGame() {
-        this.gameType = InputHandler.getGameType("W: Word, N: Number, A: AI Mode(Number)");
+        this.gameType = InputHandler.getGameType("W: Word, N: Number, A: AI Mode(Number), B: AI Mode(Word)");
         this.gameType.getGame().startGame(this.level);
     }
 

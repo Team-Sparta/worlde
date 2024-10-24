@@ -1,5 +1,7 @@
-package lv5.game;
+package lv5.game.solo;
 
+import lv5.enums.GameType;
+import lv5.game.Game;
 import lv5.generator.RandomGenerator;
 import lv5.handler.InputHandler;
 import lv5.validator.Validation;
@@ -12,7 +14,7 @@ public class SoloWordGame extends Game {
     @Override
     public void startGame(int level) {
         int count = 0;
-        String guess = "-1";
+        String guess = "";
 
         String answer = RandomGenerator.generateRandomWord(level);
         System.out.println("\n< 게임을 시작합니다 >");
@@ -27,7 +29,7 @@ public class SoloWordGame extends Game {
                 System.out.println(e.getMessage());
             }
         }
-        addGame(count);
+        addGame(GameType.WORD, count);
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private static final String INIT_NUM_REGEX = "^[0-3]$";
-    private static final String INIT_GAME_TYPE_REGEX = "^[NnWwAa]$";
+    private static final String INIT_GAME_TYPE_REGEX = "^[NnWwAaBb]$";
     private static final String LEVEL_REGEX = "^[3-5]$";
     private static final String NUMBER_REGEX = "^-?\\d+$";
     private static final String ZERO_REGEX = ".*0.*"; // This matches any string containing at least one '0'
@@ -26,7 +26,7 @@ public class Parser {
         if (!Pattern.matches(INIT_GAME_TYPE_REGEX, input)) {
             throw new InputMismatchException("잘못된 입력입니다.");
         }
-        return GameType.fromChar(input.charAt(0));
+        return GameType.fromChar(Character.toUpperCase(input.charAt(0)));
     }
 
     public static int parseLevel(String input) {

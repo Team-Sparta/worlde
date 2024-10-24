@@ -6,7 +6,7 @@ import lv5.game.GameTracker;
 import lv5.handler.InputHandler;
 
 public class Main {
-    public static final GameTracker gameTracker = new GameTracker();
+    private static final GameTracker gameTracker = new GameTracker();
 
     public static void main(String[] args) {
         boolean isExit = false;
