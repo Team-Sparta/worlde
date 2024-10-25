@@ -48,5 +48,4 @@ public class InputHandler {
     public static String getGuessWord(String prompt, int level) {
         return getInput(prompt, input -> Parser.parseGuessWord(input, level));
     }
-
 }

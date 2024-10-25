@@ -5,7 +5,11 @@ import lv5.enums.MenuType;
 import lv5.game.GameTracker;
 import lv5.handler.InputHandler;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Main {
+    private static final Logger logger = Logger.getLogger("lv5");
     private static final GameTracker gameTracker = new GameTracker();
 
     public static void main(String[] args) {
@@ -31,7 +35,8 @@ public class Main {
                         break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "An exception occurred: {}", e.getMessage());
+                logger.log(Level.SEVERE, "Exception stack trace", e.getMessage());
             }
         }
     }
