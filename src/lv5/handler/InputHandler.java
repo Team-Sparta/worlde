@@ -33,15 +33,15 @@ public class InputHandler {
         return getInput(prompt, Parser::parseInitNum);
     }
 
-    public static GameType getGameType(String prompt) {
-        return getInput(prompt, Parser::parseGameType);
-    }
-
     public static int getLevel(String prompt) {
         return getInput(prompt, Parser::parseLevel);
     }
 
-    public static int getGuessNum(String prompt, int level) {
+    public static GameType getGameType(String prompt) {
+        return getInput(prompt, Parser::parseGameType);
+    }
+
+    public static Integer getGuessNum(String prompt, int level) {
         return getInput(prompt, input -> Parser.parseGuessNum(input, level));
     }
 

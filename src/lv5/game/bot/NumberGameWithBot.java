@@ -1,43 +1,37 @@
 package lv5.game.bot;
 
 import lv5.enums.GameType;
+import lv5.game.Pair;
 import lv5.generator.RandomGenerator;
 import lv5.handler.InputHandler;
-import lv5.validator.Validation;
-import lv5.validator.ValidationResult;
 
 import java.util.*;
-
 
 public class NumberGameWithBot extends GameWithBot {
 
     @Override
-    public void startGame(int level) {
-        int count = 0;
-        int humanGuess = -1;
-        int aiGuess = -1;
+    protected void addGame(int count) {
+        super.games.add(new Pair<>(GameType.AI, count));
+    }
 
-        int answer = RandomGenerator.generateUniqueDigitNumber(level);
-        List<String> possibleNumbers = generateAllPossibleNumbers(level);
-        while (humanGuess != answer && aiGuess != answer) {
-            humanGuess = InputHandler.getGuessNum("숫자를 입력하세요", level);
-            ValidationResult humanResult = Validation.checkResult(humanGuess, answer);
-            System.out.println("Your Result: " + humanResult);
+    @Override
+    protected String generateAnswer(int length) {
+        return String.valueOf(RandomGenerator.generateUniqueDigitNumber(length));
+    }
 
-            aiGuess = aiGuess == -1 ? RandomGenerator.generateUniqueDigitNumber(level) : Integer.parseInt(getNextSmartGuess(possibleNumbers));
-            System.out.println("\nAI's Guess: " + aiGuess);
-            ValidationResult aiResult = Validation.checkResult(aiGuess, answer);
-            System.out.println("AI's Result: " + aiResult + "\n");
+    @Override
+    protected String getHumanGuess(int length) {
+        return String.valueOf(InputHandler.getGuessNum("숫자를 입력하세요", length));
+    }
 
-            int[] feedback = getFeedback(aiGuess + "", String.valueOf(answer));
-            possibleNumbers = filterPossibleElements(possibleNumbers, aiGuess + "", feedback);
-            count++;
-        }
-        addGame(GameType.AI, count);
+    @Override
+    protected String getAiGuess(String previousGuess, int length, List<String> possibleElements) {
+        return previousGuess == null ? String.valueOf(RandomGenerator.generateUniqueDigitNumber(length)) : getNextSmartGuess(possibleElements);
     }
 
 
-    private static List<String> generateAllPossibleNumbers(int length) {
+    @Override
+    protected List<String> generateAllPossibleElements(int length) {
         List<String> result = new ArrayList<>();
         Queue<String> queue = new LinkedList<>();
         for (int i = 1; i <= 9; i++) {

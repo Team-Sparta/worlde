@@ -2,34 +2,25 @@ package lv5.game.solo;
 
 import lv5.enums.GameType;
 import lv5.game.Game;
+import lv5.game.Pair;
 import lv5.generator.RandomGenerator;
 import lv5.handler.InputHandler;
-import lv5.validator.Validation;
-import lv5.validator.ValidationResult;
-
-import java.util.Objects;
 
 public class SoloWordGame extends Game {
 
     @Override
-    public void startGame(int level) {
-        int count = 0;
-        String guess = "";
+    protected void addGame(int count) {
+        super.games.add(new Pair<>(GameType.WORD, count));
+    }
 
-        String answer = RandomGenerator.generateRandomWord(level);
-        System.out.println("\n< 게임을 시작합니다 >");
+    @Override
+    protected String generateAnswer(int length) {
+        return RandomGenerator.generateRandomWord(length);
+    }
 
-        while (!Objects.equals(guess, answer)) {
-            try {
-                guess = InputHandler.getGuessWord("단어를 입력하세요", level);
-                ValidationResult result = Validation.checkResult(guess, answer);
-                System.out.println(result + "\n");
-                count++;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        addGame(GameType.WORD, count);
+    @Override
+    protected String getHumanGuess(int length) {
+        return InputHandler.getGuessWord("단어를 입력하세요", length);
     }
 
 }

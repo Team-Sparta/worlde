@@ -10,49 +10,85 @@ import java.util.stream.Collectors;
 
 public abstract class GameWithBot extends Game {
 
-    public static String getNextSmartGuess(List<String> possibleElements) {
+    private static final int SAMPLE_SIZE_LIMIT = 30_000;
+    private static final int PARALLEL_SIZE = 10_000;
+
+    protected abstract String getAiGuess(String previousGuess, int length, List<String> possibleNumbers);
+
+    protected abstract List<String> generateAllPossibleElements(int length);
+
+    @Override
+    public void startGame(int level) {
+        int count = 0;
+        String humanGuess = null;
+        String aiGuess = null;
+
+        String answer = generateAnswer(level);
+        List<String> possibleElements = generateAllPossibleElements(level);
+
+        while (!Objects.equals(humanGuess, answer) && !Objects.equals(aiGuess, answer)) {
+            humanGuess = getHumanGuess(level);
+            ValidationResult humanResult = Validation.checkResult(humanGuess, answer);
+            System.out.println("Your Result: " + humanResult);
+
+            aiGuess = getAiGuess(aiGuess, level, possibleElements);
+            System.out.println("\nAI's Guess: " + aiGuess);
+            ValidationResult aiResult = Validation.checkResult(aiGuess, answer);
+            System.out.println("AI's Result: " + aiResult + "\n");
+
+            int[] feedback = getFeedback(aiGuess, String.valueOf(answer));
+            possibleElements = filterPossibleElements(possibleElements, aiGuess, feedback);
+            count++;
+        }
+        addGame(count);
+    }
+
+
+    protected static String getNextSmartGuess(List<String> possibleElements) {
         // Shuffle the list to randomize the selection
         Collections.shuffle(possibleElements);
 
         // Take a random sample of the possible elements
-        List<String> sample = possibleElements.subList(0, Math.min(30_000, possibleElements.size()));
+        List<String> sample = possibleElements.subList(0, Math.min(SAMPLE_SIZE_LIMIT, possibleElements.size()));
 
-        // Use a concurrent map to store scores for each guess
-        Map<String, Integer> scoreMap = new ConcurrentHashMap<>();
+        // Use a map to store scores for each guess
+        Map<String, Integer> scoreMap = new HashMap<>();
+        boolean useParallel = sample.size() >= PARALLEL_SIZE;
 
-        // Process the sample concurrently
-        sample.parallelStream().forEach(guess -> {
-            // A map to store feedback counts (for strikes and balls)
-            Map<String, Integer> feedbackCountMap = new HashMap<>();
-
-            // For each guess, calculate feedback against all other possible elements in the sample
-            for (String possible : sample) {
-                if (!guess.equals(possible)) {
-                    int[] feedback = getFeedback(guess, possible);
-                    String feedbackKey = feedback[0] + "-" + feedback[1];  // Strikes and Balls as key
-                    feedbackCountMap.merge(feedbackKey, 1, Integer::sum);  // Increment feedback count
-                }
-            }
-
-            // Calculate the score based on feedback distribution
-            int score = feedbackCountMap.values().stream()
-                    .mapToInt(count -> (sample.size() - count) * (sample.size() - count))  // Focus on larger eliminations
-                    .sum();
-
-            // Store the score for this guess
-            scoreMap.put(guess, score);
-        });
-
-        // Early exit: Select the guess with the lowest score (best guess)
+        // Decide whether to process in parallel or sequentially based on the sample size
+        if (useParallel) {
+            ForkJoinPool.commonPool().submit(() -> sample.parallelStream().forEach(guess ->
+                    scoreMap.put(guess, calculateScoreForGuess(guess, sample))
+            )).join();
+        } else {
+            sample.stream().forEach(guess -> scoreMap.put(guess, calculateScoreForGuess(guess, sample)));
+        }
         return Collections.min(scoreMap.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
-    public static int[] getFeedback(String guess, String secret) {
+
+    private static int calculateScoreForGuess(String guess, List<String> sample) {
+        Map<String, Integer> feedbackCountMap = new HashMap<>();
+
+        sample.stream()
+                .filter(possible -> !guess.equals(possible))
+                .forEach(possible -> {
+                    int[] feedback = getFeedback(guess, possible);
+                    feedbackCountMap.merge(feedback[0] + "-" + feedback[1], 1, Integer::sum);
+                });
+
+        return feedbackCountMap.values().stream()
+                .mapToInt(count -> (sample.size() - count) * (sample.size() - count))
+                .sum();
+    }
+
+
+    protected static int[] getFeedback(String guess, String secret) {
         ValidationResult validationResult = Validation.countStrikesAndBalls(guess, secret);
         return new int[]{validationResult.strikes(), validationResult.balls(), validationResult.getOuts()};
     }
 
-    public static List<String> filterPossibleElements(List<String> possibleElements, String guess, int[] feedback) {
+    protected static List<String> filterPossibleElements(List<String> possibleElements, String guess, int[] feedback) {
         return possibleElements.parallelStream()
                 .filter(num -> {
                     int[] tempFeedback = getFeedback(guess, num);

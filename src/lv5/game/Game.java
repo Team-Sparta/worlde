@@ -1,20 +1,38 @@
 package lv5.game;
 
 import lv5.enums.GameType;
+import lv5.validator.Validation;
+import lv5.validator.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Game {
-    private static final List<Pair<GameType, Integer>> games = new ArrayList<>();
+    protected final List<Pair<GameType, Integer>> games = new ArrayList<>();
 
-    abstract public void startGame(int level);
+    protected void startGame(int level) {
+        int count = 0;
+        String guess = null;
 
-    public void addGame(GameType gameType, int count) {
-        games.add(new Pair<>(gameType, count));
+        String answer = generateAnswer(level);
+        System.out.println("\n< 게임을 시작합니다 >");
+
+        while (!Objects.equals(guess, answer)) {
+            try {
+                guess = getHumanGuess(level);
+                ValidationResult result = Validation.checkResult(guess, answer);
+                System.out.println(result + "\n");
+                count++;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        addGame(count);
     }
 
-    public void printRecord() {
+
+    protected void printRecord() {
         if (games.isEmpty()) {
             System.out.println("No games found\n");
             return;
@@ -25,4 +43,11 @@ public abstract class Game {
         }
         System.out.println();
     }
+
+    protected abstract void addGame(int count);
+
+    protected abstract String generateAnswer(int length);
+
+    protected abstract String getHumanGuess(int length);
+
 }

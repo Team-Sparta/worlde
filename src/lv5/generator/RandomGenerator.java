@@ -10,7 +10,7 @@ public class RandomGenerator {
 
     private final static Random random = new Random();
 
-    public static int generateUniqueDigitNumber(int level) {
+    public static Integer generateUniqueDigitNumber(int level) {
         // Create a list of digits (1-9) to ensure no zeros are included
         List<Integer> digits = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
