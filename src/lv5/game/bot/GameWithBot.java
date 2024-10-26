@@ -36,7 +36,7 @@ public abstract class GameWithBot extends Game {
             ValidationResult aiResult = Validation.checkResult(aiGuess, answer);
             System.out.println("AI's Result: " + aiResult + "\n");
 
-            int[] feedback = getFeedback(aiGuess, String.valueOf(answer));
+            int[] feedback = getFeedback(aiGuess, answer);
             possibleElements = filterPossibleElements(possibleElements, aiGuess, feedback);
             count++;
         }
@@ -69,7 +69,6 @@ public abstract class GameWithBot extends Game {
 
     private static int calculateScoreForGuess(String guess, List<String> sample) {
         Map<String, Integer> feedbackCountMap = new HashMap<>();
-
         sample.stream()
                 .filter(possible -> !guess.equals(possible))
                 .forEach(possible -> {
@@ -96,5 +95,4 @@ public abstract class GameWithBot extends Game {
                 })
                 .collect(Collectors.toList());
     }
-
 }

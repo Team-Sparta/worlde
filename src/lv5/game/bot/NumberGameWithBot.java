@@ -11,7 +11,7 @@ public class NumberGameWithBot extends GameWithBot {
 
     @Override
     protected void addGame(int count) {
-        super.games.add(new Pair<>(GameType.AI, count));
+        super.games.add(new Pair<GameType, Integer>(GameType.AI, count));
     }
 
     @Override

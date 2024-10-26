@@ -36,7 +36,7 @@ public class Main {
                 }
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "An exception occurred: {}", e.getMessage());
-                logger.log(Level.SEVERE, "Exception stack trace", e.getMessage());
+                logger.log(Level.SEVERE, "Exception stack trace", e.getStackTrace());
             }
         }
     }

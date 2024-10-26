@@ -13,7 +13,6 @@ public class TestRunner {
         try {
             // Create an instance of the test class
             Object testInstance = testClass.getDeclaredConstructor().newInstance();
-
             for (Method method : testClass.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(Test.class)) {
                     // Run the test method
@@ -25,8 +24,7 @@ public class TestRunner {
                     }
                 }
             }
-            System.out.println();
-            System.out.println("All tests passed.");
+            System.out.println("\nAll tests passed.");
         } catch (Exception e) {
             e.printStackTrace();
         }
